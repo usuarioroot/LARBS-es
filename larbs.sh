@@ -15,7 +15,7 @@ while getopts ":a:r:b:p:h" o; do case "${o}" in
 esac done
 
 [ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/lukesmithxyz/voidrice.git"
-[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/progs.csv"
+[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/usuarioroot/LARBS-es/master/progs.csv"
 [ -z "$aurhelper" ] && aurhelper="yay"
 [ -z "$repobranch" ] && repobranch="master"
 
@@ -57,7 +57,7 @@ getuserandpass() { \
 
 usercheck() { \
 	! (id -u "$name" >/dev/null) 2>&1 ||
-	dialog --colors --title "ADVERTENCIA!" --yes-label "CONTINUAR" --no-label "No espera..." --yesno "El usuario \`$name\` ya existe en este sistema. LARBS se puede instalar para un usuario ya existente, pero \\Zbsobreescribirá\\Zn cualquier configuración/archivos de puntos conflictivos en la cuenta de usuario.\\n\\nLARBS \\Zbno\\Zn sobrescribirá sus archivos de usuario, documentos, videos, etc., así que no te preocupes por eso, solo haz clic en <CONTINUAR> si no te importa que se sobrescriba tu configuración.\\n\\nTenga en cuenta también que LARBS cambiará la contraseña de $name a la que acaba de dar." 14 70
+	dialog --colors --title "ADVERTENCIA!" --yes-label "CONTINUAR" --no-label "No espera..." --yesno "El usuario \`$name\` ya existe en este sistema. LARBS se puede instalar para un usuario ya existente, pero \\Zbsobreescribirá\\Zn cualquier configuración/archivos de puntos conflictivos en la cuenta de usuario.\\n\\nLARBS \\Zbno\\Zn sobrescribirá sus archivos de usuario, documentos, videos, etc., así que no te preocupes por eso, solo haz clic en <CONTINUAR> si no te importa que se sobrescriba tu configuración.\\n\\nTenga en cuenta también que LARBS cambiará la contraseña de "$name" a la que acaba de dar." 14 70
 	}
 
 preinstallmsg() { \
@@ -94,7 +94,7 @@ manualinstall() { # Installs $1 manually if not installed. Used only for AUR hel
 	cd /tmp || return) ;}
 
 maininstall() { # Installs all needed programs from main repo.
-	dialog --title "LARBS Instalación" --infobox "Instalando \`$1\` ($n of $total). $1 $2" 5 70
+	dialog --title "LARBS Instalación" --infobox "Instalando \`$1\` ($n de $total). $1 $2" 5 70
 	installpkg "$1"
 	}
 
@@ -151,7 +151,7 @@ systembeepoff() { dialog --infobox "Deshaciendoce de ese pitido de error retarda
 
 finalize(){ \
 	dialog --infobox "Preparando mensaje de bienvenida..." 4 50
-	dialog --title "Todo Completo!" --msgbox "Felicidades! Con que no haya errores ocultos, la secuencia de comandos se completó correctamente y todos los programas y archivos de configuración deben estar en su lugar.\\n\\nPara ejecutar el nuevo entorno gráfico, cierre la sesión y vuelva a iniciarla como su nuevo usuario, luego ejecute el comando \"startx\" para iniciar el entorno gráfico (se iniciará automáticamente en tty1).\\n\\n.t Luke" 12 80
+	dialog --title "Todo Completo!" --msgbox "Felicidades! Con que no haya habido errores ocultos, la secuencia de comandos se completó correctamente y todos los programas y archivos de configuración deben estar en su lugar.\\n\\nPara ejecutar el nuevo entorno gráfico, cierre la sesión y vuelva a iniciarlo como su nuevo usuario, luego ejecute el comando \"startx\" para iniciar el entorno gráfico (se iniciará automáticamente en tty1).\\n\\n.t Luke" 12 80
 	}
 
 ### THE ACTUAL SCRIPT ###
