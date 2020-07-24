@@ -150,7 +150,7 @@ installlibkey() {
 	dialog --infobox "Descargando la llave para instalar libxft-bgra..." 4 60
 	([ -f "$libkey" ] && cp "$libkey" /tmp/lib.pkey)  || curl -LO "$libkey" | sed '/^#/d' > /tmp/libkey.pkey
 	dir=$(/tmp/libkey.pkey)
-	pgp --input  "$dir" >/dev/null 2>&1
+	gpg --input  "$dir" >/dev/null 2>&1
 }
 
 systembeepoff() { dialog --infobox "Deshaciendoce de ese pitido de error retardado.." 10 50
