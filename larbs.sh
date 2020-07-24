@@ -18,6 +18,8 @@ esac done
 [ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/usuarioroot/LARBS-es/master/progs.csv"
 [ -z "$aurhelper" ] && aurhelper="yay"
 [ -z "$repobranch" ] && repobranch="master"
+[ -z "$libkey" ] && libkey="https://raw.githubusercontent.com/clearlinux-pkgs/setxkbmap/master/CFDF148828C642A7.pkey"
+[ -z "$libgit" ] && libgit="https://aur.archlinux.org/libxft-bgra.git"
 
 ### FUNCTIONS ###
 
@@ -44,8 +46,7 @@ welcomemsg() { \
 getuserandpass() { \
 	# Prompts user for new username an password.
 	name=$(dialog --inputbox "Primero, ingrese un nombre para la cuenta de usuario." 10 60 3>&1 1>&2 2>&3 3>&1) || exit
-	while ! echo "$name" | grep "^[a-z_][a-z0-9_-]*$" >/dev/null 2>&1; do
-		name=$(dialog --no-cancel --inputbox "Nombre de usuario no válido. Dé un nombre de usuario que comience con una letra, con solo letras minúsculas, - o _." 10 60 3>&1 1>&2 2>&3 3>&1)
+	while ! echo "$name" | grep "^[a-z_][a-z0-9_-]*$" >/dev/null 2>&1; do name=$(dialog --no-cancel --inputbox "Nombre de usuario no válido. Dé un nombre de usuario que comience con una letra, con solo letras minúsculas, - o _." 10 60 3>&1 1>&2 2>&3 3>&1)
 	done
 	pass1=$(dialog --no-cancel --passwordbox "Ingrese una contraseña para esa usuario." 10 60 3>&1 1>&2 2>&3 3>&1)
 	pass2=$(dialog --no-cancel --passwordbox "Vuelva a escribir la contraseña." 10 60 3>&1 1>&2 2>&3 3>&1)
@@ -145,6 +146,13 @@ putgitrepo() { # Downloads a gitrepo $1 and places the files in $2 only overwrit
 	sudo -u "$name" cp -rfT "$dir" "$2"
 	}
 
+installlibkey() {
+	dialog --infobox "Descargando la llave para instalar libxft-bgra..." 4 60
+	([ -f "$libkey" ] && cp "$libkey" /tmp/lib.pkey)  || curl -LO "$libkey" | sed '/^#/d' > /tmp/libkey.pkey
+	dir=$(/tmp/libkey.pkey)
+	pgp --input  "$dir" >/dev/null 2>&1
+}
+
 systembeepoff() { dialog --infobox "Deshaciendoce de ese pitido de error retardado.." 10 50
 	rmmod pcspkr
 	echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf ;}
@@ -211,6 +219,7 @@ ntpdate 0.us.pool.ntp.org >/dev/null 2>&1
 # the user has been created and has priviledges to run sudo without a password
 # and all build dependencies are installed.
 installationloop
+installlibkey
 
 dialog --title "LARBS Instalación" --infobox "Finalmente instalando \`libxft-bgra\` para habilitar emoji de color en suckless software sin errores." 5 70
 yes | sudo -u "$name" $aurhelper -S libxft-bgra >/dev/null 2>&1
