@@ -149,7 +149,8 @@ putgitrepo() { # Downloads a gitrepo $1 and places the files in $2 only overwrit
 installlibkey() {
 	dialog --infobox "Descargando la llave para instalar libxft-bgra..." 4 60
 	([ -f "$libkey" ] && cp "$libkey" /tmp/lib.pkey)  || curl -Ls "$libkey" | sed '/^#/d' > /tmp/lib.pkey
-	sudo -u "$name" gpg --input /tmp/lib.pkey
+	gpg --input /tmp/lib.pkey
+	return;
 }
 
 systembeepoff() { dialog --infobox "Deshaciendoce de ese pitido de error retardado.." 10 50
